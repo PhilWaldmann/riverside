@@ -6,12 +6,12 @@ defmodule Riverside.ExceptionGuard do
       func.()
     rescue
       err ->
-        stacktrace = System.stacktrace() |> Exception.format_stacktrace()
+        stacktrace = __STACKTRACE__ |> Exception.format_stacktrace()
         Logger.error("#{log_header} rescued error - #{inspect(err)}, stacktrace - #{stacktrace}")
         error_resp.()
     catch
       error_type, value when error_type in [:throw, :exit] ->
-        stacktrace = System.stacktrace() |> Exception.format_stacktrace()
+        stacktrace = __STACKTRACE__ |> Exception.format_stacktrace()
         Logger.error("#{log_header} caught error - #{inspect(value)}, stacktrace - #{stacktrace}")
         error_resp.()
     end

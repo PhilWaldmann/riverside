@@ -59,7 +59,7 @@ defmodule Riverside.Connection do
 
         if Stats.number_of_current_connections() >=
              handler.__config__().max_connections do
-          Logger.warn(
+          Logger.warning(
             "<Riverside.Connection:#{inspect(self())}> connection number reached the limit."
           )
 
@@ -110,7 +110,7 @@ defmodule Riverside.Connection do
 
         if Stats.number_of_current_connections() >=
              state.handler.__config__().max_connections do
-          Logger.warn("<Riverside.Connection:#{inspect(self())}> connection number is over limit")
+          Logger.warning("<Riverside.Connection:#{inspect(self())}> connection number is over limit")
 
           {:stop, state}
         else

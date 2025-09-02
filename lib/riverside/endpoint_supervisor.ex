@@ -17,7 +17,7 @@ defmodule Riverside.EndpointSupervisor do
     router = Keyword.get(opts, :router, Riverside.Router)
 
     scheme =
-      if Config.get_tls(handler.__config__.tls) do
+      if Config.get_tls(handler.__config__().tls) do
         :https
       else
         :http
@@ -38,10 +38,10 @@ defmodule Riverside.EndpointSupervisor do
   defp cowboy_opts(router, module) do
     Config.ensure_module_loaded(module)
 
-    port = Config.get_port(module.__config__.port)
-    extra_opts = Config.get_cowboy_opts(module.__config__.cowboy_opts)
-    path = module.__config__.path
-    idle_timeout = module.__config__.idle_timeout
+    port = Config.get_port(module.__config__().port)
+    extra_opts = Config.get_cowboy_opts(module.__config__().cowboy_opts)
+    path = module.__config__().path
+    idle_timeout = module.__config__().idle_timeout
 
     cowboy_opts =
       [
@@ -51,18 +51,18 @@ defmodule Riverside.EndpointSupervisor do
       ] ++ extra_opts
 
     cowboy_opts =
-      if module.__config__.reuse_port do
+      if module.__config__().reuse_port do
         cowboy_opts ++ [{:raw, 1, 15, <<1, 0, 0, 0>>}]
       else
         cowboy_opts
       end
 
-    if Config.get_tls(module.__config__.tls) do
+    if Config.get_tls(module.__config__().tls) do
       cowboy_opts ++
         [
-          otp_app: module.__config__.otp_app,
-          certfile: Config.get_tls_certfile(module.__config__.tls_certfile),
-          keyfile: Config.get_tls_keyfile(module.__config__.tls_keyfile)
+          otp_app: module.__config__().otp_app,
+          certfile: Config.get_tls_certfile(module.__config__().tls_certfile),
+          keyfile: Config.get_tls_keyfile(module.__config__().tls_keyfile)
         ]
     else
       cowboy_opts

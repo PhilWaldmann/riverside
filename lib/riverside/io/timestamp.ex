@@ -4,7 +4,7 @@ defmodule Riverside.IO.Timestamp do
     @callback milli_seconds() :: non_neg_integer
   end
 
-  @impl_mod Application.get_env(:riverside, :timestamp_module, Riverside.IO.Timestamp.Real)
+  @impl_mod Application.compile_env(:riverside, :timestamp_module, Riverside.IO.Timestamp.Real)
 
   @behaviour Behaviour
 

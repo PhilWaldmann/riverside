@@ -1,5 +1,5 @@
 defmodule Riverside.IO.Random do
-  @impl_mod Application.get_env(:riverside, :random_module, Riverside.IO.Random.Real)
+  @impl_mod Application.compile_env(:riverside, :random_module, Riverside.IO.Random.Real)
 
   defmodule Behaviour do
     @callback hex(non_neg_integer) :: String.t()
